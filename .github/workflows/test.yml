@@ -1,7 +1,7 @@
 name: Automate with GraphQL
 
 on:
-  workflow_dispatch:
+  push:
 
 jobs:
   query-graphql:
