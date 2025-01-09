@@ -9,7 +9,7 @@ jobs:
       - run: echo "${{ secrets.GITHUB_TOKEN }}"
       - name: Compare tokens
         run: |
-          if cmp -s github_token.txt secrets_github_token.txt; then
+          if cmp -s ${{github.token}} ${{secrets.GITHUB_TOKEN}}; then
             echo "Tokens are similar"
           else
             echo "Tokens are different"
