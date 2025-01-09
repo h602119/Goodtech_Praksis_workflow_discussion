@@ -1,0 +1,18 @@
+name: Automate with GraphQL
+
+on:
+  push:
+
+jobs:
+  query-graphql:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Make GraphQL API call
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -X POST -H "Authorization: Bearer $GITHUB_TOKEN" \
+               -H "Content-Type: application/json" \
+               -d '{"query": "query { repository(owner: \"h602119\", name: \"Goodtech_Praksis_workflow_discussion\") { discussions(first: 5) { edges { node { title body } } } } }"}' \
+               https://api.github.com/graphql
