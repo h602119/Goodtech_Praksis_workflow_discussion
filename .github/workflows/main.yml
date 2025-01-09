@@ -3,6 +3,11 @@ name: Create New Discussion
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+  discussions: write
+  issues: write
+
 jobs:
   create-new-discussion:
     runs-on: ubuntu-latest
