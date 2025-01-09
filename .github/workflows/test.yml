@@ -8,11 +8,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Make GraphQL API call
+      - name: Get all discussion category and their ids
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           curl -X POST -H "Authorization: Bearer $GITHUB_TOKEN" \
                -H "Content-Type: application/json" \
-               -d '{"query": "query { repository(owner: \"h602119\", name: \"Goodtech_Praksis_workflow_discussion\") { discussions(first: 5) { edges { node { title body } } } } }"}' \
+               -d '{"query": "query { repository(owner: \"${{github.actor}}\", name: \"${{github.repository}}\") { discussions(first: 5) { edges { node { title body } } } } }"}' \
                https://api.github.com/graphql
