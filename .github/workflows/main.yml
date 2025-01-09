@@ -1,27 +1,33 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [workflow_dispatch]
+name: Create New Discussion
+
+on:
+  workflow_dispatch:
+
 jobs:
-  Explore-GitHub-Actions:
+  create-new-discussion:
     runs-on: ubuntu-latest
+
     steps:
-      - run: echo "${{ github.token }}"
-      - run: echo "${{ secrets.GITHUB_TOKEN }}"
-      - name: Compare tokens
-        run: |
-          if cmp -s ${{github.token}} ${{secrets.GITHUB_TOKEN}}; then
-            echo "Tokens are similar"
-          else
-            echo "Tokens are different"
-          fi
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
+      - name: Check out repository
         uses: actions/checkout@v4
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
+
+      - name: Get Discussion IDs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+          curl -X GET \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer <YOUR-TOKEN>" \
+          https://api.github.com/repos/h602119/Goodtech_Praksis_workflow_discussion/discussions/categories
+
+
+      - name: Create a new discussion
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TITLE: "Automated Discussions"
+          BODY: "Hello World"
+        run: |
+          curl -X POST -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"title\": \"$TITLE\", \"body\": \"$BODY\", \"category_id\": \"<CATEGORY_ID>\"}" \
+            https://api.github.com/repos/${{ github.repository }}/discussions
