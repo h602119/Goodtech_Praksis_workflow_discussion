@@ -18,5 +18,5 @@ jobs:
         run: |
           curl -X POST -H "Authorization: Bearer $GITHUB_TOKEN" \
                -H "Content-Type: application/json" \
-               -d '{"query": "query { repository(owner: \"${{github.actor}}\", name: \"${{github.repository}}\") { discussions(first: 5) { edges { node { title body } } } } }"}' \
+               -d '{"query": "query { name: \"${{github.repository}}\") { discussions(first: 5) { edges { node { title body } } } } }"}' \
                https://api.github.com/graphql
