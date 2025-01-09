@@ -11,14 +11,15 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Get Discussion IDs
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          curl -X GET \
-          -H "Accept: application/vnd.github+json" \
-          -H "Authorization: Bearer $GITHUB_TOKEN" \
-          https://api.github.com/repos/h602119/Goodtech_Praksis_workflow_discussion/discussions/categories
+
+#      - name: Get Discussion IDs
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        run: |
+#          curl -X GET \
+#          -H "Accept: application/vnd.github+json" \
+#          -H "Authorization: Bearer $GITHUB_TOKEN" \
+#          https://api.github.com/repos/h602119/Goodtech_Praksis_workflow_discussion/discussions/categories
 
 
       - name: Create a new discussion
@@ -29,5 +30,5 @@ jobs:
         run: |
           curl -X POST -H "Authorization: Bearer $GITHUB_TOKEN" \
             -H "Content-Type: application/json" \
-            -d "{\"title\": \"$TITLE\", \"body\": \"$BODY\", \"category_id\": \"<CATEGORY_ID>\"}" \
+            -d "{\"title\": \"$TITLE\", \"body\": \"$BODY\", \"category_id\": \"1\"}" \
             https://api.github.com/repos/${{ github.repository }}/discussions
