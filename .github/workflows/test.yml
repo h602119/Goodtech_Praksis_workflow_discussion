@@ -8,6 +8,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+      - run: echo ${{github.actor}}
+      - run: echo ${{github.repository}}
+    
       - name: Get all discussion category and their ids
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
