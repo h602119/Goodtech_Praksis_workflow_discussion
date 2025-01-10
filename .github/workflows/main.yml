@@ -44,14 +44,14 @@ jobs:
           TITLE: "Hello World"
           BODY: "Hello World"
         run: |
+          repo_id="${{ steps.fetch-repo-id.outputs.repo_id }}"
           curl -X POST \
             -H "Authorization: Bearer $GITHUB_TOKEN" \
             -H "Content-Type: application/json" \
-            -d "$(jq -n --arg repoId "${{ steps.fetch-repo-id.outputs.repo_id }}" \
-                        --arg title "$TITLE" \
-                        --arg body "$BODY" \
-                        --arg categoryId "$CATEGORY_ID" \
-                        '{query: "mutation { createDiscussion(input: { repositoryId: \($repoId), title: \($title), body: \($body), categoryId: \($categoryId) }) { discussion { id title url } } }"}')" \
+            -d "{
+              \"query\": \"mutation { createDiscussion(input: { repositoryId: \\\"$repo_id\\\", title: \\\"$TITLE\\\", body: \\\"$BODY\\\", categoryId: \\\"$CATEGORY_ID\\\" }) { discussion { id title url } } }\"
+            }" \
             https://api.github.com/graphql
+
 
 
