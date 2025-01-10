@@ -16,14 +16,17 @@ jobs:
       - name: Fetch and parse discussion categories
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ github.event.repository.name }}
         run: |
           curl -X POST \
             -H "Authorization: Bearer $GITHUB_TOKEN" \
             -H "Content-Type: application/json" \
-            -d '{
-              "query": "query { repository(owner: \"h602119\", name: \"Goodtech_Praksis_workflow_discussion\") { discussionCategories(first: 10) { nodes { id name description } } } }"
-            }' \
+            -d "{
+              \"query\": \"query { repository(owner: \\\"$REPO_OWNER\\\", name: \\\"$REPO_NAME\\\") { discussionCategories(first: 10) { nodes { id name description } } } }\"
+            }" \
             https://api.github.com/graphql | jq -r '.data.repository.discussionCategories.nodes[] | "\(.id): \(.name)"'
+
 
       # Automatically gets the id of the repository, needed when publishing a new discussion.
       - name: Fetch repository ID via GraphQL
