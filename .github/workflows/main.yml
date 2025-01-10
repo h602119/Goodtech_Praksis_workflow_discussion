@@ -41,8 +41,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CATEGORY_ID: "DIC_kwDONnjXbM4Cl2Qi"
-          TITLE: ""
-          BODY: ""
+          TITLE: "Hello World"
+          BODY: "Hello World"
         run: |
           curl -X POST \
             -H "Authorization: Bearer $GITHUB_TOKEN" \
