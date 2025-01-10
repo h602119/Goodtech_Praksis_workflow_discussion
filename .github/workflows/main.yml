@@ -4,16 +4,12 @@ on:
   #workflow_dispatch:
   push:
 
-permissions:
-  discussions: write
 
 jobs:
   create-new-discussion:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
 
       # When creating a new discussion, it needs to be published to a category, using its unique id as identifier.
       - name: Fetch and parse discussion categories
