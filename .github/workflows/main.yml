@@ -48,7 +48,7 @@ jobs:
             -H "Authorization: Bearer $GITHUB_TOKEN" \
             -H "Content-Type: application/json" \
             -d '{
-              "query": "mutation { createDiscussion(input: { repositoryId: \"${{ steps.fetch-repo-id.outputs.repo_id }}\", title: \"$TITLE\", body: \"$BODY\", categoryId: \"$CATEGORY_ID\" }) { discussion { id title url } } }"
+              "query": "mutation { createDiscussion(input: { repositoryId: \"${{ steps.fetch-repo-id.outputs.repo_id }}\", title: \"${{TITLE}}\", body: \"${{BODY}}\", categoryId: \"${{CATEGORY_ID}}\" }) { discussion { id title url } } }"
             }' \
             https://api.github.com/graphql
 
