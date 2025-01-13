@@ -1,6 +1,6 @@
 name: Create New Discussion
 
-# workflow_dispatch is enabled, and allows for higher degree of control when to create new discussions. 
+# workflow_dispatch is enabled, and allows for a higher degree of control when creating new discussions. 
 on:
   workflow_dispatch:
   #push:
@@ -12,7 +12,7 @@ jobs:
 
     steps:
 
-      # When creating a new discussion, it needs to be published to a category, using its unique id as identifier.
+      # When creating a new discussion, it needs to be published to a category (e.g. "General"), using its unique id as identifier (e.g. "127hjkrj3").
       - name: Fetch and parse discussion categories
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -39,6 +39,7 @@ jobs:
           -H "Content-Type: application/json" \
           -d '{"query":"query { repository(owner: \"h602119\", name: \"Goodtech_Praksis_workflow_discussion\") { id } }"}' \
           https://api.github.com/graphql | jq -r '.data.repository.id')"
+
 
       # Edit CATEGORY_ID, TITLE and BODY within env variables.
       # The publisher of this discussion will have the name "github_actions[bot]", in order to customize this, the use of a PAT is required.
