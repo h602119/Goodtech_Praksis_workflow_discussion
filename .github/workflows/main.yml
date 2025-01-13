@@ -46,7 +46,7 @@ jobs:
       - name: Create a new discussion
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CATEGORY_ID: "DIC_kwDONnjXbM4Cl942"
+          CATEGORY_ID: "DIC_kwDONnjXbM4Cl942remove"
           TITLE: "Hello World"
           BODY: "Hello World"
         run: |
