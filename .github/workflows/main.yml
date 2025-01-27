@@ -37,13 +37,14 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh api -H "Accept: application/vnd.github+json" repos/$USER/$REPO | jq .id
+          
 
 
       # Automatically gets the id of the repository, needed when publishing a new discussion.
       - name: Fetch repository ID via GraphQL
         id: fetch-repo-id
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           echo "::set-output name=repo_id::$(curl -X POST \
           -H "Authorization: Bearer $GITHUB_TOKEN" \
@@ -56,12 +57,12 @@ jobs:
       # The publisher of this discussion will have the name "github_actions[bot]", in order to customize this, the use of a PAT is required.
       - name: Create a new discussion
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
           CATEGORY_ID: "DIC_kwDONnjXbM4Cl942"
           TITLE: "Hello World"
           BODY: "Hello World"
         run: |
-          repo_id="${{ steps.fetch-repo-id.outputs.repo_id }}"
+          repo_id=gh api -H "Accept: application/vnd.github+json" repos/$USER/$REPO | jq .id
           
           response=$(curl -X POST \
             -H "Authorization: Bearer $GITHUB_TOKEN" \
