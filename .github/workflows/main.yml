@@ -64,7 +64,7 @@ jobs:
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
         run: |
-          repo_id=gh api -H "Accept: application/vnd.github+json" repos/$OWNER/$REPO | jq .id
+          repo_id=$(gh api -H "Accept: application/vnd.github+json" repos/$OWNER/$REPO | jq .id)
           
           response=$(curl -X POST \
             -H "Authorization: Bearer $GITHUB_TOKEN" \
