@@ -36,8 +36,7 @@ jobs:
           REPO: Goodtech_Praksis_workflow_discussion
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh api -H "Accept: application/vnd.github+json" repos/$USER/$REPO | jq .id
-          repo_id=$(gh api -H "Accept: application/vnd.github+json" /repos/$OWNER/$REPO | jq -r .id)
+          repo_id=$(gh api -H "Accept: application/vnd.github+json" repos/$USER/$REPO | jq .id)
           echo $repo_id
           
 
