@@ -28,6 +28,16 @@ jobs:
             https://api.github.com/graphql | jq -r '.data.repository.discussionCategories.nodes[] | "\(.id): \(.name)"'
 
 
+
+      - name: Testing new RepoId Fetch
+        id: new-fetch
+        env:
+          USER: h602119
+          REPO: Goodtech_Praksis_workflow_discussion
+        run: |
+          gh api -H "Accept: application/vnd.github+json" repos/$OWNER/$REPO_NAME | jq .id
+
+
       # Automatically gets the id of the repository, needed when publishing a new discussion.
       - name: Fetch repository ID via GraphQL
         id: fetch-repo-id
