@@ -37,7 +37,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           repo_id=$(gh api -H "Accept: application/vnd.github+json" repos/$USER/$REPO | jq .id)
-          echo $repo_id
+          echo "This is the repo id: $repo_id"
           
 
 
