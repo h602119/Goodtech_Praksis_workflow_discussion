@@ -35,7 +35,7 @@ jobs:
           USER: h602119
           REPO: Goodtech_Praksis_workflow_discussion
         run: |
-          gh api -H "Accept: application/vnd.github+json" repos/$OWNER/$REPO_NAME | jq .id
+          gh api -H "Accept: application/vnd.github+json" repos/$USER/$REPO | jq .id
 
 
       # Automatically gets the id of the repository, needed when publishing a new discussion.
