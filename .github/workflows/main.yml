@@ -61,8 +61,10 @@ jobs:
           CATEGORY_ID: "DIC_kwDONnjXbM4Cl942"
           TITLE: "Hello World"
           BODY: "Hello World"
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
         run: |
-          repo_id=gh api -H "Accept: application/vnd.github+json" repos/$USER/$REPO | jq .id
+          repo_id=gh api -H "Accept: application/vnd.github+json" repos/$OWNER/$REPO | jq .id
           
           response=$(curl -X POST \
             -H "Authorization: Bearer $GITHUB_TOKEN" \
