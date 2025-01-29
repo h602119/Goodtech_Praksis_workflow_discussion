@@ -64,3 +64,10 @@ jobs:
               \"query\": \"mutation { createDiscussion(input: { repositoryId: \\\"$repo_id\\\", title: \\\"$TITLE\\\", body: \\\"$BODY\\\", categoryId: \\\"$CATEGORY_ID\\\" }) { discussion { id title url } } }\"
             }" \
             https://api.github.com/graphql)
+
+          if echo "$response" | grep -q '"errors"'; then
+            error_message=$(echo "$response" | jq -r '.errors[0].message')
+            echo "Error: Failed to create discussion. $error_message"
+            exit 1
+          fi
+          echo "Discussion created successfully."
