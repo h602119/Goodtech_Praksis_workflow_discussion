@@ -16,27 +16,6 @@ jobs:
       # api.github.com/{owner}/{repo}/discussions
       # Example id : DIC_kwDONnjXbM4Cl942
 
-      - name: Testing new RepoId Fetch
-        id: new-fetch
-        env:
-          USER: h602119
-          REPO: Goodtech_Praksis_workflow_discussion
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          repo_id=$(gh api -H "Accept: application/vnd.github+json" repos/$USER/$REPO | jq .id)
-          echo "This is the repo id: $repo_id"
-
-      - name: Fetch repository ID via GraphQL
-        id: fetch-repo-id
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: |
-          echo "::set-output name=repo_id::$(curl -X POST \
-          -H "Authorization: Bearer $GITHUB_TOKEN" \
-          -H "Content-Type: application/json" \
-          -d '{"query":"query { repository(owner: \"h602119\", name: \"Goodtech_Praksis_workflow_discussion\") { id } }"}' \
-          https://api.github.com/graphql | jq -r '.data.repository.id')"
-
       - name: Create a new discussion
         env:
           GITHUB_TOKEN: ${{ github.token }}
