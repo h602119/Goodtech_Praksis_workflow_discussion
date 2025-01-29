@@ -21,17 +21,15 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           CATEGORY_ID: "DIC_kwDONnjXbM4Cl942"
           TITLE: "Hello World"
-          BODY: "Hello World"
-          USER: h602119
-          REPO: Goodtech_Praksis_workflow_discussion
+          BODY: "Hello World" 
         run: |
-          repo_id=$(gh repo view --json id --jq .id)
-          
+          REPO_ID=$(gh repo view --json id --jq .id)
+
           response=$(curl -X POST \
             -H "Authorization: Bearer $GITHUB_TOKEN" \
             -H "Content-Type: application/json" \
             -d "{
-              \"query\": \"mutation { createDiscussion(input: { repositoryId: \\\"$repo_id\\\", title: \\\"$TITLE\\\", body: \\\"$BODY\\\", categoryId: \\\"$CATEGORY_ID\\\" }) { discussion { id title url } } }\"
+              \"query\": \"mutation { createDiscussion(input: { repositoryId: \\\"$REPO_ID\\\", title: \\\"$TITLE\\\", body: \\\"$BODY\\\", categoryId: \\\"$CATEGORY_ID\\\" }) { discussion { id title url } } }\"
             }" \
             https://api.github.com/graphql)
 
