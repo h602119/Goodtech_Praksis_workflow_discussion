@@ -1,18 +1,16 @@
 name: Create New Discussion
 
-# workflow_dispatch is enabled, and allows for a higher degree of control when creating new discussions. 
 on:
   workflow_dispatch:
-  #push:
-
 
 jobs:
   create-new-discussion:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
 
-      # When creating a new discussion, it needs to be published to a category (e.g. "General"), using its unique id as identifier (e.g. "127hjkrj3").
       - name: Fetch and parse discussion categories
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -27,8 +25,6 @@ jobs:
             }" \
             https://api.github.com/graphql | jq -r '.data.repository.discussionCategories.nodes[] | "\(.id): \(.name)"'
 
-
-
       - name: Testing new RepoId Fetch
         id: new-fetch
         env:
@@ -38,10 +34,7 @@ jobs:
         run: |
           repo_id=$(gh api -H "Accept: application/vnd.github+json" repos/$USER/$REPO | jq .id)
           echo "This is the repo id: $repo_id"
-          
 
-
-      # Automatically gets the id of the repository, needed when publishing a new discussion.
       - name: Fetch repository ID via GraphQL
         id: fetch-repo-id
         env:
@@ -53,17 +46,14 @@ jobs:
           -d '{"query":"query { repository(owner: \"h602119\", name: \"Goodtech_Praksis_workflow_discussion\") { id } }"}' \
           https://api.github.com/graphql | jq -r '.data.repository.id')"
 
-
-      # Edit CATEGORY_ID, TITLE and BODY within env variables.
-      # The publisher of this discussion will have the name "github_actions[bot]", in order to customize this, the use of a PAT is required.
       - name: Create a new discussion
         env:
           GITHUB_TOKEN: ${{ github.token }}
           CATEGORY_ID: "DIC_kwDONnjXbM4Cl942"
           TITLE: "Hello World"
           BODY: "Hello World"
-          OWNER: ${{ github.repository_owner }}
-          REPO: ${{ github.event.repository.name }}
+          USER: h602119
+          REPO: Goodtech_Praksis_workflow_discussion
         run: |
           repo_id=$(gh api -H "Accept: application/vnd.github+json" repos/$USER/$REPO | jq .id)
           
@@ -75,10 +65,8 @@ jobs:
             }" \
             https://api.github.com/graphql)
             
-#          if echo "$response" | grep -q '"errors"'; then
- #           echo "Error: Failed to create discussion. Invalid CATEGORY_ID."
-  #          exit 1
-   #       fi
-    #      echo "Discussion created successfully."
-
-
+          if echo "$response" | grep -q '"errors"'; then
+            echo "Error: Failed to create discussion. Invalid CATEGORY_ID."
+            exit 1
+          fi
+          echo "Discussion created successfully."
