@@ -64,9 +64,3 @@ jobs:
               \"query\": \"mutation { createDiscussion(input: { repositoryId: \\\"$repo_id\\\", title: \\\"$TITLE\\\", body: \\\"$BODY\\\", categoryId: \\\"$CATEGORY_ID\\\" }) { discussion { id title url } } }\"
             }" \
             https://api.github.com/graphql)
-            
-          if echo "$response" | grep -q '"errors"'; then
-            echo "Error: Failed to create discussion. Invalid CATEGORY_ID."
-            exit 1
-          fi
-          echo "Discussion created successfully."
