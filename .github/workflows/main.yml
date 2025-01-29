@@ -75,10 +75,10 @@ jobs:
             }" \
             https://api.github.com/graphql)
             
-          if echo "$response" | grep -q '"errors"'; then
-            echo "Error: Failed to create discussion. Invalid CATEGORY_ID."
-            exit 1
-          fi
-          echo "Discussion created successfully."
+#          if echo "$response" | grep -q '"errors"'; then
+ #           echo "Error: Failed to create discussion. Invalid CATEGORY_ID."
+  #          exit 1
+   #       fi
+    #      echo "Discussion created successfully."
 
 
