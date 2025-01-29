@@ -11,19 +11,10 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
 
-      - name: Fetch and parse discussion categories
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPO_OWNER: ${{ github.repository_owner }}
-          REPO_NAME: ${{ github.event.repository.name }}
-        run: |
-          curl -X POST \
-            -H "Authorization: Bearer $GITHUB_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d "{
-              \"query\": \"query { repository(owner: \\\"$REPO_OWNER\\\", name: \\\"$REPO_NAME\\\") { discussionCategories(first: 10) { nodes { id name description } } } }\"
-            }" \
-            https://api.github.com/graphql | jq -r '.data.repository.discussionCategories.nodes[] | "\(.id): \(.name)"'
+      # Manually read the id from the JSON 
+      # api.github.com/h602119/Goodtech_Praksis_workflow_discussion/
+      # api.github.com/{owner}/{repo}/discussions
+      # Example id : DIC_kwDONnjXbM4Cl942
 
       - name: Testing new RepoId Fetch
         id: new-fetch
@@ -55,7 +46,7 @@ jobs:
           USER: h602119
           REPO: Goodtech_Praksis_workflow_discussion
         run: |
-          repo_id=$(gh api -H "Accept: application/vnd.github+json" repos/$USER/$REPO | jq .id)
+          repo_id=$(gh repo view --json id --jq .id)
           
           response=$(curl -X POST \
             -H "Authorization: Bearer $GITHUB_TOKEN" \
